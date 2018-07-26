@@ -12,4 +12,4 @@
 */
 
 Route::get('/', 'WeatherWatcherController@index');
-Route::post('/city', 'CityController@update');
+Route::post('/city', 'WeatherWatcherController@updateCity');
