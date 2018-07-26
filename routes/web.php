@@ -13,3 +13,4 @@
 
 Route::get('/', 'WeatherWatcherController@index');
 Route::post('/city', 'WeatherWatcherController@updateCity');
+Route::post('/add/trigger', 'WeatherWatcherController@addTrigger');

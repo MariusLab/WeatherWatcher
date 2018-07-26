@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use MariusLab\City;
 use MariusLab\Services\OpenWeatherClient;
+use MariusLab\Trigger;
+use MariusLab\User;
 
 class WeatherWatcherController extends Controller
 {
@@ -21,6 +23,8 @@ class WeatherWatcherController extends Controller
         $selectedCity = City::orderBy('created_at', 'desc')->first();
         if ($selectedCity !== null) {
             $weather = $this->weatherClient->queryCity($selectedCity->name);
+        } else {
+            $weather = null;
         }
 
         return view('weather_watcher', [
@@ -56,6 +60,36 @@ class WeatherWatcherController extends Controller
 
         $city = City::create(['name' => $request->get('name')]);
         $city->save();
+
+        return redirect()->action('WeatherWatcherController@index');
+    }
+
+    public function addTrigger(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->action('WeatherWatcherController@index')->withErrors($validator);
+        }
+
+        $user = User::firstOrNew(['email' => $request->get('email')]);
+        $user->save();
+
+        $trigger = Trigger::firstOrNew([
+            'user_id' => $user->id,
+            'weather_attribute' => 'wind.speed',
+            'condition' => '>10'
+        ]);
+        $trigger->save();
+
+        $trigger = Trigger::firstOrNew([
+            'user_id' => $user->id,
+            'weather_attribute' => 'wind.speed',
+            'condition' => '<10'
+        ]);
+        $trigger->save();
 
         return redirect()->action('WeatherWatcherController@index');
     }
