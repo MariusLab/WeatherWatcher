@@ -66,6 +66,9 @@ class WeatherWatcherController extends Controller
 
     public function addTrigger(Request $request)
     {
+        $selectedCity = City::orderBy('created_at', 'desc')->first();
+        $weather = $this->weatherClient->queryCity($selectedCity->name);
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
         ]);
@@ -85,13 +88,15 @@ class WeatherWatcherController extends Controller
         ]);
         $trigger->save();
 
-        $trigger = Trigger::firstOrNew([
+        $trigger2 = Trigger::firstOrNew([
             'user_id' => $user->id,
             'name' => 'wind_speed',
             'expression' => '$lt',
             'amount' => 10
         ]);
-        $trigger->save();
+        $trigger2->save();
+
+        $this->weatherClient->addTrigger($weather->city, [$trigger, $trigger2]);
 
         return redirect()->action('WeatherWatcherController@index');
     }

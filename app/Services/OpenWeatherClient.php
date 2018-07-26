@@ -34,4 +34,9 @@ class OpenWeatherClient
 
         return $weather;
     }
+
+    public function addTrigger(OpenWeatherMap\Util\City $city, array $triggers)
+    {
+      //make a POST HTTP request to openweathermap triggers endpoint
+    }
 }
