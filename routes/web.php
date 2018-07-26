@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WeatherWatcherController@index');
+Route::post('/city', 'CityController@update');
