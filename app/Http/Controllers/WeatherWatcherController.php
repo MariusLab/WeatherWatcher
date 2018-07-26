@@ -79,15 +79,17 @@ class WeatherWatcherController extends Controller
 
         $trigger = Trigger::firstOrNew([
             'user_id' => $user->id,
-            'weather_attribute' => 'wind.speed',
-            'condition' => '>10'
+            'name' => 'wind_speed',
+            'expression' => '$gt',
+            'amount' => 10
         ]);
         $trigger->save();
 
         $trigger = Trigger::firstOrNew([
             'user_id' => $user->id,
-            'weather_attribute' => 'wind.speed',
-            'condition' => '<10'
+            'name' => 'wind_speed',
+            'expression' => '$lt',
+            'amount' => 10
         ]);
         $trigger->save();
 

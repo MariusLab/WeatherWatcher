@@ -12,30 +12,27 @@ class Trigger extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'weather_attribute', 'condition'
+        'user_id', 'name', 'expression', 'amount'
     ];
 
     /**
-     * Number of lives a trigger has
-     * If set to null - never expires automatically
-     *
-     * @var int
-     */
-    protected $expires_after;
-
-    /**
-     * Weather attribute such as wind speed, temperature etc.
+     * Weather attribute such as wind_speed, temp etc.
      *
      * @var string
      */
-    protected $weather_attribute;
+    protected $name;
 
     /**
-     * The condition for the trigger to activate
+     * The expression for comparison
      *
      * @var string
      */
-    protected $condition;
+    protected $expression;
+
+    /**
+     * @var Value to be compared with
+     */
+    protected $amount;
 
     public function users()
     {

@@ -16,9 +16,9 @@ class CreateTriggersTable extends Migration
         Schema::create('triggers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->integer('expires_after')->nullable();
-            $table->string('weather_attribute');
-            $table->string('condition');
+            $table->string('name');
+            $table->string('expression');
+            $table->integer('amount');
             $table->timestamps();
         });
     }
